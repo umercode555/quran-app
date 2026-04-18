@@ -1,13 +1,13 @@
 {
-  "name": "القرآن الكريم · AI Companion",
-  "short_name": "Quran AI",
+  "name": "Quran 360",
+  "short_name": "Quran 360",
   "description": "Read the Quran with AI tafsir, word-by-word analysis, and audio recitation.",
   "start_url": "/index.html",
   "id": "/index.html",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
-  "background_color": "#D4317A",
+  "background_color": "#000000",
   "theme_color": "#D4317A",
   "orientation": "portrait-primary",
   "lang": "ar",
@@ -81,7 +81,15 @@
       "purpose": "maskable"
     }
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Quran AI — Read, listen and explore with AI tafsir"
+    }
+  ],
   "shortcuts": [],
   "prefer_related_applications": false,
   "related_applications": []

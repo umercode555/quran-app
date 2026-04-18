@@ -1015,6 +1015,175 @@
   .notes-save { margin-top:6px; padding:6px 16px; border-radius:20px; background:var(--accent); color:#fff; border:none; font-family:var(--ui-font); font-size:12px; font-weight:600; cursor:pointer; }
   .notes-save:hover { background:var(--accent2); }
 
+  /* ── ROUTINE TAB ─────────────────────────────────────────── */
+  .routine-session-tabs { display:flex; gap:6px; margin-bottom:20px; }
+  .routine-tab-btn {
+    flex:1; padding:10px 8px; border-radius:var(--radius-sm); border:1.5px solid var(--border);
+    background:var(--surface2); font-family:var(--ui-font); font-size:12px; font-weight:600;
+    color:var(--text3); cursor:pointer; transition:background .15s,color .15s,border-color .15s;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+  }
+  .routine-tab-btn.active { background:var(--accent-light); color:var(--accent); border-color:var(--accent); }
+  .routine-tab-btn .rt-emoji { font-size:16px; }
+  .routine-tab-btn .rt-label { font-size:11px; font-weight:700; }
+  .routine-session-panel { display:none; }
+  .routine-session-panel.active { display:block; }
+
+  /* Streak banner for each session */
+  .rt-streak-banner {
+    border-radius:var(--radius-sm); border:1px solid var(--border);
+    background:var(--surface2); padding:14px 16px; margin-bottom:18px;
+    display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap;
+  }
+  [data-theme="dark"] .rt-streak-banner { background:rgba(13,13,22,0.7); border-color:rgba(232,82,154,0.12); }
+  .rt-streak-fire { font-size:32px; line-height:1; }
+  .rt-streak-info { flex:1; min-width:0; }
+  .rt-streak-count { font-size:26px; font-weight:800; color:var(--accent); line-height:1; }
+  .rt-streak-count span { font-size:13px; font-weight:500; color:var(--text3); }
+  .rt-streak-msg { font-size:12px; color:var(--text3); margin-top:3px; line-height:1.4; }
+  .rt-streak-meta { font-size:11px; color:var(--text3); margin-top:6px; display:flex; flex-direction:column; gap:2px; }
+  .rt-streak-meta b { color:var(--text2); }
+  .rt-best-streak { display:flex; align-items:center; gap:6px; margin-top:8px; padding:7px 10px; border-radius:8px; background:var(--accent-light); border:1px solid rgba(212,49,122,0.15); }
+  .rt-best-streak-label { font-size:11px; color:var(--accent); font-weight:600; }
+
+  /* Counter card */
+  .rt-counter-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; margin-bottom:12px; cursor:pointer; user-select:none;
+    transition:border-color .2s, box-shadow .2s; position:relative; overflow:hidden;
+  }
+  [data-theme="dark"] .rt-counter-card { background:rgba(10,10,20,0.75); border-color:rgba(232,82,154,0.1); }
+  .rt-counter-card:hover { border-color:var(--accent); box-shadow:0 4px 20px var(--shadow2); }
+  .rt-counter-card.completed { border-left:3px solid var(--accent); background:var(--accent-light); }
+  .rt-counter-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .rt-counter-title { font-size:15px; font-weight:700; color:var(--text); }
+  .rt-counter-source { font-size:11px; color:var(--text3); margin-top:2px; }
+  .rt-counter-benefit { font-size:12px; color:var(--text2); margin-top:6px; line-height:1.5; border-left:2px solid var(--accent); padding-left:8px; }
+  .rt-counter-controls { display:flex; align-items:center; gap:12px; }
+  .rt-count-display { font-size:28px; font-weight:800; color:var(--accent); font-variant-numeric:tabular-nums; min-width:50px; text-align:center; }
+  .rt-count-target { font-size:12px; color:var(--text3); text-align:center; margin-top:2px; }
+  .rt-count-progress { height:4px; background:var(--border); border-radius:4px; margin-top:10px; overflow:hidden; }
+  .rt-count-progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:4px; transition:width .3s ease; }
+  .rt-hint { font-size:10px; color:var(--text3); text-align:center; margin-top:6px; opacity:.7; }
+
+  /* Surah card in routine */
+  .rt-surah-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; margin-bottom:12px; cursor:pointer;
+    transition:border-color .2s, box-shadow .2s; position:relative; overflow:hidden;
+  }
+  [data-theme="dark"] .rt-surah-card { background:rgba(10,10,20,0.75); border-color:rgba(232,82,154,0.1); }
+  .rt-surah-card:hover { border-color:var(--accent); box-shadow:0 4px 20px var(--shadow2); }
+  .rt-surah-card.completed { border-left:3px solid var(--accent); }
+  .rt-surah-card-top { display:flex; align-items:center; justify-content:space-between; }
+  .rt-surah-name { font-size:15px; font-weight:700; }
+  .rt-surah-arabic { font-family:var(--arabic-font); font-size:22px; color:var(--accent); }
+  .rt-surah-meta { font-size:11px; color:var(--text3); margin-top:3px; }
+  .rt-surah-benefit { font-size:12px; color:var(--text2); margin-top:8px; line-height:1.5; border-left:2px solid var(--accent); padding-left:8px; }
+  .rt-check-icon { width:26px; height:26px; border-radius:50%; border:1.5px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .2s,border-color .2s; }
+  .rt-check-icon.checked { background:var(--accent); border-color:var(--accent); }
+  .rt-complete-btn {
+    margin-top:12px; padding:8px 18px; border-radius:20px; border:1.5px solid var(--border);
+    background:transparent; font-family:var(--ui-font); font-size:12px; font-weight:600;
+    color:var(--text3); cursor:pointer; transition:background .15s,color .15s,border-color .15s;
+  }
+  .rt-complete-btn:hover { background:var(--accent-light); color:var(--accent); border-color:var(--accent); }
+  .rt-complete-btn.done { background:var(--accent-light); color:var(--accent); border-color:var(--accent); }
+
+  /* Bundle card (3 Quls) */
+  .rt-bundle-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; margin-bottom:12px;
+  }
+  [data-theme="dark"] .rt-bundle-card { background:rgba(10,10,20,0.75); border-color:rgba(232,82,154,0.1); }
+  .rt-bundle-title { font-size:15px; font-weight:700; margin-bottom:4px; }
+  .rt-bundle-sub { font-size:12px; color:var(--text3); margin-bottom:14px; }
+  .rt-bundle-items { display:flex; gap:10px; flex-wrap:wrap; }
+  .rt-bundle-item {
+    flex:1; min-width:80px; background:var(--surface2); border:1.5px solid var(--border);
+    border-radius:var(--radius-sm); padding:12px 10px; text-align:center; cursor:pointer;
+    transition:border-color .2s,background .2s;
+  }
+  .rt-bundle-item:hover { border-color:var(--accent); background:var(--accent-light); }
+  .rt-bundle-item.completed { border-color:var(--accent); background:var(--accent-light); }
+  .rt-bundle-item-arabic { font-family:var(--arabic-font); font-size:20px; color:var(--accent); display:block; margin-bottom:4px; }
+  .rt-bundle-item-name { font-size:11px; font-weight:700; color:var(--text2); display:block; }
+  .rt-bundle-item-ayahs { font-size:10px; color:var(--text3); display:block; margin-top:2px; }
+  .rt-bundle-complete-all {
+    margin-top:10px; padding:8px 16px; border-radius:20px;
+    border:1.5px solid var(--border); background:transparent;
+    font-family:var(--ui-font); font-size:12px; font-weight:600;
+    color:var(--text3); cursor:pointer; transition:background .15s,color .15s,border-color .15s; width:100%;
+  }
+  .rt-bundle-complete-all:hover { background:var(--accent-light); color:var(--accent); border-color:var(--accent); }
+
+  /* Routine surah modal (full ayah-by-ayah view) */
+  #routineSurahModal {
+    position:fixed; inset:0; z-index:700; background:rgba(0,0,0,.7);
+    display:none; align-items:flex-end; justify-content:center;
+    backdrop-filter:blur(8px);
+  }
+  #routineSurahModal.open { display:flex; animation:fadeIn .2s ease; }
+  .rt-modal-inner {
+    background:var(--surface); border-radius:24px 24px 0 0;
+    width:100%; max-width:680px;
+    max-height:88vh; overflow-y:auto;
+    padding:0 0 calc(env(safe-area-inset-bottom) + 80px);
+    box-shadow:0 -8px 48px rgba(0,0,0,.3);
+    animation:slideUp .3s cubic-bezier(.22,.68,0,1.2);
+  }
+  .rt-modal-header {
+    position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--border);
+    padding:16px 20px; display:flex; align-items:center; justify-content:space-between;
+    z-index:10; border-radius:24px 24px 0 0;
+  }
+  .rt-modal-title { font-size:17px; font-weight:700; }
+  .rt-modal-close {
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--border);
+    background:var(--surface2); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    color:var(--text2); font-size:18px; flex-shrink:0;
+  }
+  .rt-modal-body { padding:20px; }
+  .rt-ayah-block {
+    background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius);
+    margin-bottom:10px; padding:18px 20px; transition:border-color .2s;
+  }
+  [data-theme="dark"] .rt-ayah-block { background:rgba(13,13,22,0.7); border-color:rgba(232,82,154,0.1); }
+  .rt-ayah-num { width:28px; height:28px; border-radius:50%; border:1.5px solid var(--border); font-size:11px; font-weight:700; color:var(--text3); display:inline-flex; align-items:center; justify-content:center; margin-bottom:10px; }
+  .rt-ayah-arabic { font-family:var(--arabic-font); font-size:26px; line-height:2; text-align:right; direction:rtl; color:var(--text); }
+  .rt-done-all-btn {
+    width:100%; padding:14px; border-radius:var(--radius-sm); border:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff; font-family:var(--ui-font); font-size:14px; font-weight:700;
+    cursor:pointer; margin-top:8px; box-shadow:0 3px 14px rgba(212,49,122,0.4);
+    transition:opacity .15s; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .rt-done-all-btn:hover { opacity:.9; }
+  .rt-done-all-btn.done { background:var(--border); color:var(--text3); box-shadow:none; cursor:default; }
+  /* Mark-complete checkboxes on ayah blocks */
+  .rt-ayah-mark {
+    display:flex; align-items:center; justify-content:flex-end; margin-top:8px;
+  }
+  .rt-ayah-mark-btn {
+    padding:5px 12px; border-radius:20px; border:1px solid var(--border);
+    background:transparent; font-family:var(--ui-font); font-size:11px; font-weight:600;
+    color:var(--text3); cursor:pointer; transition:background .15s,color .15s,border-color .15s;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .rt-ayah-mark-btn.done { background:var(--accent-light); color:var(--accent); border-color:var(--accent); }
+  /* completion ring */
+  .rt-surah-ring { position:relative; width:38px; height:38px; flex-shrink:0; }
+  .rt-surah-ring svg { width:38px; height:38px; transform:rotate(-90deg); }
+  .rt-ring-bg { fill:none; stroke:var(--border); stroke-width:3; }
+  .rt-ring-fill { fill:none; stroke:var(--accent); stroke-width:3; stroke-linecap:round; transition:stroke-dashoffset .4s ease; }
+  /* Section heading inside routine */
+  .rt-section-heading {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--accent); margin:20px 0 10px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .rt-section-heading::after { content:''; flex:1; height:1px; background:var(--border); }
+
   /* SHARE MODAL */
   .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:500; display:none; align-items:center; justify-content:center; padding:20px; }
   .modal-overlay.open { display:flex; animation:fadeIn .2s ease; }
@@ -2343,6 +2512,7 @@
     <button class="nav-tab-btn active-tab" onclick="showPage('read')" id="btn-read">Read</button>
     <button class="nav-tab-btn" onclick="showPage('bookmarks')" id="btn-bookmarks">Saved</button>
     <button class="nav-tab-btn" onclick="showPage('notes')" id="btn-notes">Notes</button>
+    <button class="nav-tab-btn" onclick="showPage('routine')" id="btn-routine">Routine</button>
 
     <!-- ── INSTALL APP BUTTON ────────────────────────────── -->
     <button id="btn-install-main" onclick="triggerPWAInstall()" title="Install app on your phone"
@@ -2524,6 +2694,46 @@
         <div class="pg-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>My Reflections</div>
         <div class="pg-sub">Your personal notes on ayahs</div>
         <div id="notesList"></div>
+      </div>
+
+      <!-- ROUTINE PAGE -->
+      <div class="page" id="page-routine">
+        <div class="pg-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Daily Routine
+        </div>
+        <div class="pg-sub">Morning, Evening &amp; Night Azkar — your protected daily shield</div>
+
+        <!-- Session tabs: Morning / Evening / Night -->
+        <div class="routine-session-tabs">
+          <button class="routine-tab-btn active" id="rt-tab-morning" onclick="switchRoutineTab('morning')">
+            <span class="rt-emoji">🌅</span><span class="rt-label">Morning</span>
+          </button>
+          <button class="routine-tab-btn" id="rt-tab-evening" onclick="switchRoutineTab('evening')">
+            <span class="rt-emoji">🌇</span><span class="rt-label">Evening</span>
+          </button>
+          <button class="routine-tab-btn" id="rt-tab-night" onclick="switchRoutineTab('night')">
+            <span class="rt-emoji">🌙</span><span class="rt-label">Night</span>
+          </button>
+        </div>
+
+        <!-- MORNING PANEL -->
+        <div class="routine-session-panel active" id="rt-panel-morning">
+          <div class="rt-streak-banner" id="rt-streak-morning"></div>
+          <div id="rt-morning-items"></div>
+        </div>
+
+        <!-- EVENING PANEL -->
+        <div class="routine-session-panel" id="rt-panel-evening">
+          <div class="rt-streak-banner" id="rt-streak-evening"></div>
+          <div id="rt-evening-items"></div>
+        </div>
+
+        <!-- NIGHT PANEL -->
+        <div class="routine-session-panel" id="rt-panel-night">
+          <div class="rt-streak-banner" id="rt-streak-night"></div>
+          <div id="rt-night-items"></div>
+        </div>
       </div>
       <div class="page" id="page-history">
         <div class="pg-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Reading History</div>
@@ -3197,6 +3407,10 @@
       <span class="mb-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
       <span class="mb-label">Notes</span>
     </button>
+    <button class="mb-tab" id="mbt-routine" onclick="showPage('routine')">
+      <span class="mb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+      <span class="mb-label">Routine</span>
+    </button>
     <!-- Bayyaan center FAB tab -->
     <button class="mb-tab mb-bayyaan-tab" id="mbt-bayyaan" onclick="toggleBayyaan()">
       <span class="mb-bayyaan-fab">
@@ -3212,7 +3426,21 @@
   </div>
 </nav>
 
-<!-- MORE SHEET -->
+<!-- ROUTINE SURAH MODAL -->
+<div id="routineSurahModal" onclick="if(event.target===this)closeRoutineSurahModal()">
+  <div class="rt-modal-inner">
+    <div class="rt-modal-header">
+      <div>
+        <div class="rt-modal-title" id="rtModalTitle">Surah</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;" id="rtModalMeta"></div>
+      </div>
+      <button class="rt-modal-close" onclick="closeRoutineSurahModal()">✕</button>
+    </div>
+    <div class="rt-modal-body" id="rtModalBody">
+      <div style="text-align:center;padding:40px;color:var(--text3);"><div class="big-spinner"></div>Loading...</div>
+    </div>
+  </div>
+</div>
 <div id="moreSheet" style="display:none;position:fixed;inset:0;z-index:8500;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeMoreSheet()">
   <div style="background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:0 0 calc(env(safe-area-inset-bottom) + 16px);box-shadow:0 -8px 48px rgba(0,0,0,.25);animation:slideUp .3s cubic-bezier(.22,.68,0,1.2);">
     <div style="display:flex;justify-content:center;padding:12px 0 4px;">
@@ -4201,6 +4429,12 @@ if (!S.history)  S.history  = {}; // {YYYY-MM-DD: {surahNum: minutes}}
 if (!S.sessions) S.sessions = []; // [{surahNum, start, end, mins}]
 if (!S.reminder) S.reminder = null; // {time:'HH:MM', days:[0-6]}
 if (!S.chats)    S.chats    = {}; // {ayahKey: [{role, content, ts}]}
+// Routine state
+if (!S.routine)  S.routine  = {
+  morning: { streak:0, lastDate:null, bestStreak:0, prevStreak:0, prevStreakEndDate:null, items:{} },
+  evening: { streak:0, lastDate:null, bestStreak:0, prevStreak:0, prevStreakEndDate:null, items:{} },
+  night:   { streak:0, lastDate:null, bestStreak:0, prevStreak:0, prevStreakEndDate:null, items:{} }
+};
 const save = () => { try { localStorage.setItem('qstate_v3', JSON.stringify(S)); } catch(e){} };
 
 // Restore last reading position
@@ -7219,6 +7453,7 @@ function showPage(name) {
   if (window.innerWidth <= 768) closeSidebar();
   if (name === 'bookmarks') renderBookmarks();
   if (name === 'notes')     renderNotes();
+  if (name === 'routine')   renderRoutinePage();
   if (name === 'history') { renderHistoryPage(); const codeEl = document.getElementById('mySyncCodeDisplay'); if (codeEl) codeEl.textContent = getSyncCode(); }
 }
 
@@ -11439,6 +11674,751 @@ function _fallbackDownload(blob, filename, toastMsg) {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(function() { URL.revokeObjectURL(url); }, 10000);
   showToast(toastMsg || 'Saved ✓');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ROUTINE TAB — Full implementation
+// ═══════════════════════════════════════════════════════════════
+
+// ─── Azkar data ──────────────────────────────────────────────
+var MORNING_ITEMS = [
+  {
+    id:'m_ayatul_kursi', type:'surah', surahNum:2, ayahStart:255, ayahEnd:255,
+    title:'Ayatul Kursi', arabic:'آية الكرسي',
+    source:'Sahih Muslim',
+    benefit:'Allah assigns a guardian angel until evening — no shaytan can come near.',
+    times:1
+  },
+  {
+    id:'m_ikhlas', type:'surah', surahNum:112, ayahStart:1, ayahEnd:4,
+    title:'Surah Al-Ikhlas', arabic:'الإخلاص',
+    source:'Sahih Bukhari',
+    benefit:'Reward equivalent to reciting one-third of the Quran.',
+    times:3
+  },
+  {
+    id:'m_falaq', type:'surah', surahNum:113, ayahStart:1, ayahEnd:5,
+    title:'Surah Al-Falaq', arabic:'الفلق',
+    source:'Sahih Muslim',
+    benefit:'Protection from all evil of creation.',
+    times:3
+  },
+  {
+    id:'m_nas', type:'surah', surahNum:114, ayahStart:1, ayahEnd:6,
+    title:'Surah An-Nas', arabic:'الناس',
+    source:'Sahih Muslim',
+    benefit:'Protection from the whisperings of shaytan.',
+    times:3
+  },
+  {
+    id:'m_bismillah', type:'counter',
+    title:'Bismillah Protection',
+    arabic:'بِسْمِ اللّٰهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
+    transliteration:'Bismillahilladhi la yadurru ma\'asmihi shay\'un fil ardi wa la fis samai wa huwas sami\'ul \'alim.',
+    target:3, source:'Abu Dawud, Tirmidhi (Hasan)',
+    benefit:'Nothing shall harm the reciter that day until evening.'
+  },
+  {
+    id:'m_raditu', type:'counter',
+    title:'Raditu Billahi',
+    arabic:'رَضِيتُ بِاللّٰهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ نَبِيًّا',
+    transliteration:'Raditu billahi rabban wa bil islami dinan wa bi muhammadin nabiyya.',
+    target:3, source:'Abu Dawud, Tirmidhi',
+    benefit:'Allah promises to please the reciter on the Day of Judgment.'
+  },
+  {
+    id:'m_ashhadu', type:'counter',
+    title:'Morning Witness Dua',
+    arabic:'اللّٰهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللّٰهُ لَا إِلٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ',
+    transliteration:'Allahumma inni asbhatu ushiduka wa ushidu hamalata \'arshik...',
+    target:4, source:'Ibn Sunni',
+    benefit:'Allah will free one quarter of the reciter from the Hellfire for each recitation.'
+  },
+  {
+    id:'m_bika_asbahna', type:'counter',
+    title:'Morning Opening Dua',
+    arabic:'اللّٰهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ',
+    transliteration:'Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilaikan nushur.',
+    target:1, source:'Tirmidhi',
+    benefit:'Begins the day with full reliance on Allah.'
+  },
+  {
+    id:'m_hasbiyallah', type:'counter',
+    title:'Hasbiyallah',
+    arabic:'حَسْبِيَ اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ',
+    transliteration:'Hasbiyallahu la ilaha illa huwa \'alayhi tawakkaltu wa huwa rabbul \'arshil \'azim.',
+    target:7, source:'Abu Dawud',
+    benefit:'Whoever says this 7 times, Allah will suffice him in all his affairs.'
+  },
+  {
+    id:'m_subhanallah100', type:'counter',
+    title:'Subhanallah wa Bihamdihi',
+    arabic:'سُبْحَانَ اللّٰهِ وَبِحَمْدِهِ',
+    transliteration:'Subhanallah wa bihamdihi.',
+    target:100, source:'Sahih Muslim',
+    benefit:'All sins forgiven even if they were as the foam of the sea.'
+  },
+  {
+    id:'m_lailaha10', type:'counter',
+    title:'La Ilaha Illallah',
+    arabic:'لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+    transliteration:'La ilaha illallahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu wa huwa \'ala kulli shay\'in qadir.',
+    target:100, source:'Sahih Bukhari, Muslim',
+    benefit:'Reward of freeing 4 slaves, 100 good deeds written, 100 sins erased, shielded from shaytan.'
+  },
+  {
+    id:'m_afini', type:'counter',
+    title:'Dua for Wellbeing',
+    arabic:'اللّٰهُمَّ عَافِنِي فِي بَدَنِي اللّٰهُمَّ عَافِنِي فِي سَمْعِي اللّٰهُمَّ عَافِنِي فِي بَصَرِي لَا إِلٰهَ إِلَّا أَنْتَ',
+    transliteration:'Allahumma afini fi badani, Allahumma afini fi sam\'i, Allahumma afini fi basari, la ilaha illa anta.',
+    target:3, source:'Abu Dawud, Tirmidhi',
+    benefit:'Supplication for physical and spiritual wellbeing.'
+  },
+  {
+    id:'m_audhu_kufr', type:'counter',
+    title:'Seek Refuge from Kufr & Poverty',
+    arabic:'اللّٰهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ وَعَذَابِ الْقَبْرِ',
+    transliteration:'Allahumma inni a\'udhu bika minal kufri wal faqri wa \'adhabil qabr.',
+    target:1, source:'Abu Dawud, Nasa\'i',
+    benefit:'Protection from disbelief, poverty and punishment of the grave.'
+  },
+  {
+    id:'m_hayyu_qayyum', type:'counter',
+    title:'Ya Hayyu Ya Qayyum',
+    arabic:'يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ',
+    transliteration:'Ya Hayyu ya Qayyum birahmatika astaghith, aslih li sha\'ni kullahu wa la takilni ila nafsi tarfata \'ayn.',
+    target:1, source:'Tirmidhi (Hasan Sahih)',
+    benefit:'The Prophet ﷺ used this dua every morning.'
+  },
+  {
+    id:'m_hashr', type:'surah', surahNum:59, ayahStart:22, ayahEnd:24,
+    title:'Last 3 Verses of Surah Al-Hashr', arabic:'سورة الحشر ٢٢-٢٤',
+    source:'Tirmidhi',
+    benefit:'70,000 angels pray for the reciter until evening; if they die that day, they die as a shahid.',
+    times:1
+  }
+];
+
+var EVENING_ITEMS = MORNING_ITEMS.map(function(item) {
+  var e = JSON.parse(JSON.stringify(item));
+  e.id = e.id.replace(/^m_/, 'e_');
+  if (e.id === 'e_bika_asbahna') {
+    e.arabic = 'اللّٰهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ';
+    e.transliteration = 'Allahumma bika amsayna wa bika asbahna wa bika nahya wa bika namutu wa ilaykal masir.';
+    e.title = 'Evening Opening Dua';
+  }
+  return e;
+}).concat([
+  {
+    id:'e_audhu_evening', type:'counter',
+    title:'Evening Protection',
+    arabic:'أَعُوذُ بِكَلِمَاتِ اللّٰهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+    transliteration:"A'udhu bikalimatillahi tammati min sharri ma khalaq.",
+    target:3, source:'Sahih Muslim',
+    benefit:'Nothing shall harm the reciter until morning.'
+  }
+]);
+
+var NIGHT_ITEMS = [
+  {
+    id:'n_baqarah_last2', type:'surah', surahNum:2, ayahStart:285, ayahEnd:286,
+    title:'Last 2 Verses of Surah Al-Baqarah', arabic:'آخر آيتين من البقرة',
+    source:'Sahih Bukhari, Muslim',
+    benefit:'Sufficient for the entire night — whoever recites them, they will suffice him.',
+    times:1
+  },
+  {
+    id:'n_ayatul_kursi', type:'surah', surahNum:2, ayahStart:255, ayahEnd:255,
+    title:'Ayatul Kursi', arabic:'آية الكرسي',
+    source:'Sahih Bukhari',
+    benefit:'A guardian from Allah watches over you until morning; shaytan cannot approach.',
+    times:1
+  },
+  {
+    id:'n_3quls', type:'bundle',
+    title:'3 Quls (Blow on Hands & Wipe Body)',
+    sub:'Recite each 3×, blow on hands, wipe over your body from head to feet',
+    items:[
+      { surahNum:112, name:'Al-Ikhlas', arabic:'الإخلاص', ayahs:4 },
+      { surahNum:113, name:'Al-Falaq', arabic:'الفلق', ayahs:5 },
+      { surahNum:114, name:'An-Nas', arabic:'الناس', ayahs:6 }
+    ],
+    source:'Sahih Bukhari',
+    benefit:'Protection from all evil.'
+  },
+  {
+    id:'n_tasbeeh', type:'counter',
+    title:'Sleep Tasbeeh',
+    arabic:'سُبْحَانَ اللّٰهِ — الْحَمْدُ لِلّٰهِ — اللّٰهُ أَكْبَرُ',
+    transliteration:'33× Subhanallah · 33× Alhamdulillah · 34× Allahu Akbar',
+    target:100, source:'Sahih Bukhari, Muslim',
+    benefit:'Better than having a servant; removes tiredness and prepares the heart for sleep.'
+  },
+  {
+    id:'n_sleep_dua', type:'counter',
+    title:'Sleeping Dua',
+    arabic:'بِاسْمِكَ اللّٰهُمَّ أَمُوتُ وَأَحْيَا',
+    transliteration:'Bismikallahumma amutu wa ahya.',
+    target:1, source:'Sahih Bukhari, Muslim',
+    benefit:'If one dies in their sleep, they die upon the pure fitrah (natural disposition).'
+  }
+];
+
+// ─── State helpers ────────────────────────────────────────────
+function rtTodayKey() { return new Date().toISOString().slice(0,10); }
+
+function rtFmtDate(isoStr) {
+  if (!isoStr) return null;
+  try {
+    var d = new Date(isoStr);
+    return d.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  } catch(e) { return isoStr; }
+}
+
+function rtMigrateSession(session) {
+  if (!session.bestStreak)          session.bestStreak = 0;
+  if (session.prevStreak === undefined) session.prevStreak = 0;
+  if (!session.prevStreakEndDate)   session.prevStreakEndDate = null;
+  if (!session.items)               session.items = {};
+}
+
+function rtGetSession(name) {
+  if (!S.routine) S.routine = {};
+  if (!S.routine[name]) S.routine[name] = { streak:0, lastDate:null, bestStreak:0, prevStreak:0, prevStreakEndDate:null, items:{} };
+  rtMigrateSession(S.routine[name]);
+  return S.routine[name];
+}
+
+function rtGetItems(sessionName) {
+  if (sessionName === 'morning') return MORNING_ITEMS;
+  if (sessionName === 'evening') return EVENING_ITEMS;
+  return NIGHT_ITEMS;
+}
+
+function rtCountRequired(sessionName) {
+  return rtGetItems(sessionName).length;
+}
+
+function rtCountCompleted(sessionName) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var items = rtGetItems(sessionName);
+  return items.filter(function(item) {
+    return sess.items[today + '_' + item.id];
+  }).length;
+}
+
+function rtIsItemDone(sessionName, itemId) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  return !!sess.items[today + '_' + itemId];
+}
+
+function rtMarkItemDone(sessionName, itemId) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  sess.items[today + '_' + itemId] = true;
+  save();
+  // Check if all done → update streak
+  var done = rtCountCompleted(sessionName);
+  var total = rtCountRequired(sessionName);
+  if (done >= total) rtUpdateStreak(sessionName);
+  // Re-render streak banner
+  rtRenderStreakBanner(sessionName);
+}
+
+function rtIsAllDoneToday(sessionName) {
+  return rtCountCompleted(sessionName) >= rtCountRequired(sessionName);
+}
+
+function rtUpdateStreak(sessionName) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  if (sess.lastDate === today) return; // already counted today
+  var yesterday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+  var newStreak;
+  if (sess.lastDate === yesterday) {
+    newStreak = (sess.streak || 0) + 1;
+  } else {
+    // Store previous streak before breaking
+    if (sess.lastDate && sess.lastDate !== today) {
+      sess.prevStreak = sess.streak || 0;
+      sess.prevStreakEndDate = sess.lastDate;
+    }
+    newStreak = 1;
+  }
+  sess.streak = newStreak;
+  sess.lastDate = today;
+  if (newStreak > (sess.bestStreak || 0)) sess.bestStreak = newStreak;
+  save();
+}
+
+function rtStreakStatus(sessionName) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var yesterday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+
+  if (!sess.lastDate) {
+    return { type:'never', msg:'Not started yet', sub:'Complete all items to begin your streak.' };
+  }
+  if (sess.lastDate === today) {
+    var n = sess.streak;
+    if (n === 1) return { type:'active', msg:'Active streak: ' + n + ' day', sub:'Keep going tomorrow!' };
+    return { type:'active', msg:'Active streak: ' + n + ' days', sub:'MashaAllah — keep it up!' };
+  }
+  if (sess.lastDate === yesterday) {
+    return { type:'active', msg:'Active streak: ' + sess.streak + ' day' + (sess.streak > 1 ? 's' : ''), sub:'Complete today to continue your streak.' };
+  }
+  // Missed day(s)
+  var missedMsg = 'Broken — start new streak';
+  if (sess.prevStreak && sess.prevStreakEndDate) {
+    missedMsg = 'Streak reset after missed day. New streak: ' + (sess.streak || 0) + ' day' + ((sess.streak||0) !== 1 ? 's' : '');
+  }
+  return { type:'broken', msg:missedMsg, sub:'Previous streak: ' + (sess.prevStreak||0) + ' days ended ' + rtFmtDate(sess.prevStreakEndDate) };
+}
+
+// ─── Streak Banner ────────────────────────────────────────────
+function rtRenderStreakBanner(sessionName) {
+  var el = document.getElementById('rt-streak-' + sessionName);
+  if (!el) return;
+  var sess = rtGetSession(sessionName);
+  var status = rtStreakStatus(sessionName);
+  var done = rtCountCompleted(sessionName);
+  var total = rtCountRequired(sessionName);
+  var pct = Math.round((done / total) * 100);
+  var lastReadStr = sess.lastDate ? 'Last read: ' + rtFmtDate(sess.lastDate) : 'Never read';
+  var bestStr = (sess.bestStreak || 0) > 0 ? 'Best streak: ' + sess.bestStreak + ' day' + (sess.bestStreak !== 1 ? 's' : '') : '';
+
+  var fireEmoji = status.type === 'active' ? '🔥' : (status.type === 'broken' ? '💔' : '✨');
+  var countColor = status.type === 'broken' ? 'color:var(--text3)' : 'color:var(--accent)';
+
+  el.innerHTML =
+    '<div class="rt-streak-fire">' + fireEmoji + '</div>' +
+    '<div class="rt-streak-info">' +
+      '<div class="rt-streak-count" style="' + countColor + '">' +
+        (sess.streak || 0) + ' <span>day streak</span>' +
+      '</div>' +
+      '<div class="rt-streak-msg">' + status.msg + '</div>' +
+      '<div class="rt-streak-meta">' +
+        '<div>' + lastReadStr + '</div>' +
+        (status.type === 'broken' && sess.prevStreak ? '<div style="color:var(--text3);font-size:11px;">' + status.sub + '</div>' : '') +
+      '</div>' +
+    '</div>' +
+    (bestStr ? '<div class="rt-best-streak"><span class="rt-best-streak-label">🏆 ' + bestStr + '</span></div>' : '') +
+    '<div style="width:100%;margin-top:10px;">' +
+      '<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px;">' +
+        '<span>Today\'s progress</span><span>' + done + ' / ' + total + '</span>' +
+      '</div>' +
+      '<div style="height:5px;background:var(--border);border-radius:5px;overflow:hidden;">' +
+        '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:5px;transition:width .4s ease;"></div>' +
+      '</div>' +
+    '</div>';
+}
+
+// ─── Render items for a session ───────────────────────────────
+function rtRenderItems(sessionName) {
+  var containerId = 'rt-' + sessionName + '-items';
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  var items = rtGetItems(sessionName);
+  var html = '';
+  items.forEach(function(item) {
+    var isDone = rtIsItemDoneById(sessionName, item.id);
+    if (item.type === 'counter') {
+      html += rtBuildCounterCard(sessionName, item, isDone);
+    } else if (item.type === 'surah') {
+      html += rtBuildSurahCard(sessionName, item, isDone);
+    } else if (item.type === 'bundle') {
+      html += rtBuildBundleCard(sessionName, item);
+    }
+  });
+  el.innerHTML = html;
+  // Re-attach counter state
+  items.forEach(function(item) {
+    if (item.type === 'counter') {
+      rtRefreshCounterDisplay(sessionName, item);
+    }
+  });
+}
+
+function rtIsItemDoneById(sessionName, itemId) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  return !!sess.items[today + '_' + itemId];
+}
+
+// ─── Counter card ─────────────────────────────────────────────
+function rtBuildCounterCard(sessionName, item, isDone) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var countKey = 'count_' + today + '_' + item.id;
+  var curCount = sess.items[countKey] || 0;
+  var pct = Math.min(100, Math.round((curCount / item.target) * 100));
+  var doneClass = isDone ? ' completed' : '';
+  return '<div class="rt-counter-card' + doneClass + '" id="rtcard-' + item.id + '" ' +
+    'onclick="rtCounterTap(\'' + sessionName + '\',\'' + item.id + '\')" ' +
+    'oncontextmenu="rtCounterDec(\'' + sessionName + '\',\'' + item.id + '\');return false;" ' +
+    'ontouchstart="" ' +
+    'data-session="' + sessionName + '" data-id="' + item.id + '">' +
+    '<div class="rt-counter-top">' +
+      '<div>' +
+        '<div class="rt-counter-title">' + item.title + '</div>' +
+        '<div class="rt-counter-source">' + item.source + '</div>' +
+      '</div>' +
+      '<div class="rt-counter-controls">' +
+        '<div>' +
+          '<div class="rt-count-display" id="rtcount-' + item.id + '">' + curCount + '</div>' +
+          '<div class="rt-count-target">/ ' + item.target + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="rt-ayah-arabic" style="font-size:20px;margin-bottom:8px;">' + item.arabic + '</div>' +
+    (item.transliteration ? '<div style="font-size:11px;color:var(--text3);margin-bottom:6px;font-style:italic;">' + item.transliteration + '</div>' : '') +
+    '<div class="rt-counter-benefit">' + item.benefit + '</div>' +
+    '<div class="rt-count-progress"><div class="rt-count-progress-fill" id="rtprog-' + item.id + '" style="width:' + pct + '%"></div></div>' +
+    '<div class="rt-hint">' + (isDone ? '✅ Completed' : 'Tap to count · Right-click / long-press to undo') + '</div>' +
+  '</div>';
+}
+
+// Long-press support for mobile counter decrement
+var _rtLongPressTimer = null;
+document.addEventListener('touchstart', function(e) {
+  var card = e.target.closest('.rt-counter-card');
+  if (!card) return;
+  _rtLongPressTimer = setTimeout(function() {
+    _rtLongPressTimer = null;
+    var sn = card.dataset.session;
+    var id = card.dataset.id;
+    if (sn && id) { rtCounterDec(sn, id); }
+  }, 600);
+}, { passive:true });
+document.addEventListener('touchend', function() {
+  if (_rtLongPressTimer) { clearTimeout(_rtLongPressTimer); _rtLongPressTimer = null; }
+});
+document.addEventListener('touchmove', function() {
+  if (_rtLongPressTimer) { clearTimeout(_rtLongPressTimer); _rtLongPressTimer = null; }
+});
+
+function rtCounterTap(sessionName, itemId) {
+  if (_rtLongPressTimer === null && _rtLongPressActive) return; // was a long press
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var countKey = 'count_' + today + '_' + itemId;
+  var item = rtGetItems(sessionName).find(function(x){ return x.id === itemId; });
+  if (!item) return;
+  var cur = sess.items[countKey] || 0;
+  if (cur >= item.target) return; // already maxed
+  cur++;
+  sess.items[countKey] = cur;
+  save();
+  rtRefreshCounterDisplay(sessionName, item);
+  if (cur >= item.target) {
+    rtMarkItemDoneByKey(sessionName, itemId);
+    playCompletionSound();
+  }
+}
+
+var _rtLongPressActive = false;
+
+function rtCounterDec(sessionName, itemId) {
+  _rtLongPressActive = true;
+  setTimeout(function(){ _rtLongPressActive = false; }, 100);
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var countKey = 'count_' + today + '_' + itemId;
+  var cur = sess.items[countKey] || 0;
+  if (cur <= 0) return;
+  cur--;
+  sess.items[countKey] = cur;
+  // Un-mark done if going below target
+  var item = rtGetItems(sessionName).find(function(x){ return x.id === itemId; });
+  if (item && cur < item.target) {
+    delete sess.items[today + '_' + itemId];
+  }
+  save();
+  rtRefreshCounterDisplay(sessionName, item || { id:itemId, target:1 });
+  rtRenderStreakBanner(sessionName);
+}
+
+function rtRefreshCounterDisplay(sessionName, item) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var countKey = 'count_' + today + '_' + item.id;
+  var cur = sess.items[countKey] || 0;
+  var isDone = !!sess.items[today + '_' + item.id];
+  var pct = Math.min(100, Math.round((cur / item.target) * 100));
+  var countEl = document.getElementById('rtcount-' + item.id);
+  var progEl  = document.getElementById('rtprog-'  + item.id);
+  var cardEl  = document.getElementById('rtcard-'  + item.id);
+  if (countEl) countEl.textContent = cur;
+  if (progEl)  progEl.style.width = pct + '%';
+  if (cardEl) {
+    cardEl.classList.toggle('completed', isDone);
+    var hint = cardEl.querySelector('.rt-hint');
+    if (hint) hint.textContent = isDone ? '✅ Completed' : 'Tap to count · Right-click / long-press to undo';
+  }
+}
+
+function rtMarkItemDoneByKey(sessionName, itemId) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  sess.items[today + '_' + itemId] = true;
+  save();
+  if (rtIsAllDoneToday(sessionName)) rtUpdateStreak(sessionName);
+  rtRenderStreakBanner(sessionName);
+}
+
+// ─── Surah card ───────────────────────────────────────────────
+function rtBuildSurahCard(sessionName, item, isDone) {
+  var timesLabel = item.times > 1 ? ' × ' + item.times : '';
+  var doneClass = isDone ? ' completed' : '';
+  return '<div class="rt-surah-card' + doneClass + '" id="rtscard-' + item.id + '">' +
+    '<div class="rt-surah-card-top">' +
+      '<div>' +
+        '<div class="rt-surah-name">' + item.title + timesLabel + '</div>' +
+        '<div style="font-size:11px;color:var(--text3);margin-top:2px;">' + item.source + '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<div class="rt-surah-arabic">' + item.arabic + '</div>' +
+        '<div class="rt-check-icon' + (isDone ? ' checked' : '') + '" id="rtcheck-' + item.id + '">' +
+          (isDone ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>' : '') +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="rt-surah-benefit">' + item.benefit + '</div>' +
+    '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">' +
+      '<button class="rt-complete-btn" onclick="rtOpenSurahModal(\'' + sessionName + '\',\'' + item.id + '\')">' +
+        '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:4px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>' +
+        'Read Ayahs' +
+      '</button>' +
+      '<button class="rt-complete-btn' + (isDone ? ' done' : '') + '" id="rtdone-' + item.id + '" onclick="rtToggleSurahDone(\'' + sessionName + '\',\'' + item.id + '\')">' +
+        (isDone ? '✅ Completed' : 'Mark Complete') +
+      '</button>' +
+    '</div>' +
+  '</div>';
+}
+
+function rtToggleSurahDone(sessionName, itemId) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var key = today + '_' + itemId;
+  if (sess.items[key]) {
+    delete sess.items[key];
+    save();
+  } else {
+    rtMarkItemDoneByKey(sessionName, itemId);
+  }
+  // Update button and card visually
+  var isDone = !!sess.items[today + '_' + itemId];
+  var btn = document.getElementById('rtdone-' + itemId);
+  if (btn) { btn.textContent = isDone ? '✅ Completed' : 'Mark Complete'; btn.classList.toggle('done', isDone); }
+  var card = document.getElementById('rtscard-' + itemId);
+  if (card) card.classList.toggle('completed', isDone);
+  var chk = document.getElementById('rtcheck-' + itemId);
+  if (chk) {
+    chk.classList.toggle('checked', isDone);
+    chk.innerHTML = isDone ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>' : '';
+  }
+  rtRenderStreakBanner(sessionName);
+}
+
+// ─── Bundle card (3 Quls) ─────────────────────────────────────
+function rtBuildBundleCard(sessionName, item) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var allDone = item.items.every(function(sub) {
+    return !!sess.items[today + '_' + item.id + '_' + sub.surahNum];
+  });
+  var itemsHtml = item.items.map(function(sub) {
+    var subDone = !!sess.items[today + '_' + item.id + '_' + sub.surahNum];
+    return '<div class="rt-bundle-item' + (subDone ? ' completed' : '') + '" ' +
+      'id="rtbundle-' + item.id + '-' + sub.surahNum + '" ' +
+      'onclick="rtOpenBundleSubModal(\'' + sessionName + '\',\'' + item.id + '\',' + sub.surahNum + ',' + sub.ayahs + ')">' +
+      '<span class="rt-bundle-item-arabic">' + sub.arabic + '</span>' +
+      '<span class="rt-bundle-item-name">' + sub.name + '</span>' +
+      '<span class="rt-bundle-item-ayahs">' + sub.ayahs + ' ayahs · ×3</span>' +
+      (subDone ? '<span style="font-size:14px;margin-top:4px;">✅</span>' : '') +
+    '</div>';
+  }).join('');
+  return '<div class="rt-bundle-card" id="rtbcard-' + item.id + '">' +
+    '<div class="rt-bundle-title">' + item.title + '</div>' +
+    '<div class="rt-bundle-sub">' + item.sub + '</div>' +
+    '<div style="font-size:11px;color:var(--text3);margin-bottom:10px;">' + item.source + ' · ' + item.benefit + '</div>' +
+    '<div class="rt-bundle-items">' + itemsHtml + '</div>' +
+    '<button class="rt-bundle-complete-all' + (allDone ? '' : '') + '" onclick="rtMarkBundleDone(\'' + sessionName + '\',\'' + item.id + '\')">' +
+      (allDone ? '✅ All 3 Quls Completed' : 'Mark All 3 As Complete') +
+    '</button>' +
+  '</div>';
+}
+
+function rtMarkBundleDone(sessionName, itemId) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  var item = rtGetItems(sessionName).find(function(x){ return x.id === itemId; });
+  if (!item) return;
+  item.items.forEach(function(sub) {
+    sess.items[today + '_' + itemId + '_' + sub.surahNum] = true;
+  });
+  sess.items[today + '_' + itemId] = true;
+  save();
+  rtRenderItems(sessionName);
+  if (rtIsAllDoneToday(sessionName)) rtUpdateStreak(sessionName);
+  rtRenderStreakBanner(sessionName);
+  playCompletionSound();
+}
+
+function rtMarkBundleSubDone(sessionName, itemId, surahNum) {
+  var sess = rtGetSession(sessionName);
+  var today = rtTodayKey();
+  sess.items[today + '_' + itemId + '_' + surahNum] = true;
+  // Check if all sub-items done
+  var item = rtGetItems(sessionName).find(function(x){ return x.id === itemId; });
+  if (item && item.items.every(function(sub){ return !!sess.items[today + '_' + itemId + '_' + sub.surahNum]; })) {
+    sess.items[today + '_' + itemId] = true;
+  }
+  save();
+  if (rtIsAllDoneToday(sessionName)) rtUpdateStreak(sessionName);
+  rtRenderStreakBanner(sessionName);
+  // Update UI for this sub-item
+  var subEl = document.getElementById('rtbundle-' + itemId + '-' + surahNum);
+  if (subEl) subEl.classList.add('completed');
+}
+
+// ─── Surah Modal ──────────────────────────────────────────────
+var _rtModalSession = null, _rtModalItemId = null, _rtModalSubSurahNum = null;
+var _rtModalBundleItemId = null;
+
+async function rtOpenSurahModal(sessionName, itemId) {
+  var item = rtGetItems(sessionName).find(function(x){ return x.id === itemId; });
+  if (!item) return;
+  _rtModalSession = sessionName;
+  _rtModalItemId = itemId;
+  _rtModalSubSurahNum = null;
+  _rtModalBundleItemId = null;
+  document.getElementById('rtModalTitle').textContent = item.title;
+  document.getElementById('rtModalMeta').textContent = item.source + (item.times > 1 ? ' · Recite ' + item.times + '×' : '');
+  document.getElementById('rtModalBody').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);"><div class="big-spinner"></div>Loading...</div>';
+  document.getElementById('routineSurahModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  await rtLoadAndRenderModal(sessionName, itemId, item.surahNum, item.ayahStart, item.ayahEnd, item.title);
+}
+
+async function rtOpenBundleSubModal(sessionName, bundleItemId, surahNum, ayahCount) {
+  var SURAH_NAMES = { 112:'Al-Ikhlas', 113:'Al-Falaq', 114:'An-Nas', 2:'Al-Baqarah', 59:'Al-Hashr' };
+  var SURAH_ARABIC = { 112:'الإخلاص', 113:'الفلق', 114:'الناس', 2:'البقرة', 59:'الحشر' };
+  _rtModalSession = sessionName;
+  _rtModalItemId = null;
+  _rtModalSubSurahNum = surahNum;
+  _rtModalBundleItemId = bundleItemId;
+  document.getElementById('rtModalTitle').textContent = 'Surah ' + (SURAH_NAMES[surahNum] || surahNum);
+  document.getElementById('rtModalMeta').textContent = (SURAH_ARABIC[surahNum] || '') + ' · ' + ayahCount + ' ayahs · Recite 3×';
+  document.getElementById('rtModalBody').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);"><div class="big-spinner"></div>Loading...</div>';
+  document.getElementById('routineSurahModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  await rtLoadAndRenderModal(sessionName, null, surahNum, 1, ayahCount, 'Surah ' + (SURAH_NAMES[surahNum] || surahNum));
+}
+
+async function rtLoadAndRenderModal(sessionName, itemId, surahNum, ayahStart, ayahEnd, title) {
+  try {
+    var ayahs = await fetchSurah(surahNum);
+    if (!ayahs || !ayahs.length) throw new Error('No ayahs');
+    // Filter to just the range we need
+    var slice = ayahs.filter(function(a) { return a.num >= ayahStart && a.num <= ayahEnd; });
+    if (!slice.length) slice = ayahs; // fallback: show all
+    var html = '';
+    // Bismillah for full surahs (not surah 9, not partial ranges)
+    if (ayahStart === 1 && surahNum !== 9 && surahNum !== 2) {
+      html += '<div class="bismillah" style="font-size:24px;padding:10px 0 16px;">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ</div>';
+    }
+    slice.forEach(function(ayah) {
+      html += '<div class="rt-ayah-block">' +
+        '<div class="rt-ayah-num">' + ayah.num + '</div>' +
+        '<div class="rt-ayah-arabic">' + ayah.arabic + ' \uFD3F' + toAr(ayah.num) + '\uFD3E</div>' +
+      '</div>';
+    });
+    // Done button
+    var isDone = itemId ? rtIsItemDoneById(sessionName, itemId) :
+      (_rtModalBundleItemId ? (function(){ var sess = rtGetSession(sessionName); return !!sess.items[rtTodayKey() + '_' + _rtModalBundleItemId + '_' + surahNum]; })() : false);
+    html += '<button class="rt-done-all-btn' + (isDone ? ' done' : '') + '" id="rtModalDoneBtn" onclick="rtModalMarkDone()">' +
+      (isDone ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Completed' :
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Mark as Complete') +
+    '</button>';
+    document.getElementById('rtModalBody').innerHTML = html;
+  } catch(e) {
+    document.getElementById('rtModalBody').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">Failed to load. Check your internet connection.</div>';
+  }
+}
+
+function rtModalMarkDone() {
+  var btn = document.getElementById('rtModalDoneBtn');
+  if (btn && btn.classList.contains('done')) return;
+  if (_rtModalItemId) {
+    rtMarkItemDoneByKey(_rtModalSession, _rtModalItemId);
+    rtRenderItems(_rtModalSession);
+  } else if (_rtModalBundleItemId && _rtModalSubSurahNum) {
+    rtMarkBundleSubDone(_rtModalSession, _rtModalBundleItemId, _rtModalSubSurahNum);
+    // Re-render bundle card only
+    var item = rtGetItems(_rtModalSession).find(function(x){ return x.id === _rtModalBundleItemId; });
+    if (item) {
+      var el = document.getElementById('rtbcard-' + _rtModalBundleItemId);
+      if (el) el.outerHTML = rtBuildBundleCard(_rtModalSession, item);
+    }
+  }
+  if (btn) {
+    btn.classList.add('done');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Completed';
+  }
+  playCompletionSound();
+}
+
+function closeRoutineSurahModal() {
+  document.getElementById('routineSurahModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── Completion sound ─────────────────────────────────────────
+function playCompletionSound() {
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep(freq, start, dur, vol) {
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0, ctx.currentTime + start);
+      g.gain.linearRampToValueAtTime(vol || 0.18, ctx.currentTime + start + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+      o.start(ctx.currentTime + start);
+      o.stop(ctx.currentTime + start + dur + 0.05);
+    }
+    beep(523, 0,    0.18);
+    beep(659, 0.18, 0.18);
+    beep(784, 0.36, 0.32);
+  } catch(e) {}
+}
+
+// ─── Session tab switcher ─────────────────────────────────────
+var _rtActiveTab = 'morning';
+function switchRoutineTab(name) {
+  _rtActiveTab = name;
+  ['morning','evening','night'].forEach(function(n) {
+    document.getElementById('rt-tab-' + n).classList.toggle('active', n === name);
+    document.getElementById('rt-panel-' + n).classList.toggle('active', n === name);
+  });
+}
+
+// ─── Main render entry point ──────────────────────────────────
+function renderRoutinePage() {
+  // Ensure routine state has all fields
+  ['morning','evening','night'].forEach(function(n) {
+    rtGetSession(n); // initializes if needed
+    rtMigrateSession(S.routine[n]);
+  });
+  // Render all three sessions
+  ['morning','evening','night'].forEach(function(n) {
+    rtRenderStreakBanner(n);
+    rtRenderItems(n);
+  });
 }
 
 </script>

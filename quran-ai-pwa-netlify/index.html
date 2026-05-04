@@ -60,7 +60,12 @@
           var newWorker = reg.installing;
           newWorker.addEventListener('statechange', function () {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('[PWA] New SW available — reload to update.');
+              console.log('[PWA] New version ready — reloading for user.');
+              // New SW installed & old one was controlling — reload silently for update
+              newWorker.postMessage({ type: 'SKIP_WAITING' });
+            }
+            if (newWorker.state === 'activated') {
+              window.location.reload();
             }
           });
         });
@@ -68,6 +73,11 @@
       .catch(function (err) {
         console.warn('[PWA] SW registration failed:', err);
       });
+
+    // Also reload if the controlling SW changes (skipWaiting triggered elsewhere)
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      window.location.reload();
+    });
   });
 })();
 </script>
@@ -3407,6 +3417,16 @@
       <div class="csm-color-row" id="csmColorRow"></div>
     </div>
 
+    <!-- Content mode selector -->
+    <div class="csm-bg-section" style="border-top:1px solid rgba(255,255,255,.06);padding-top:12px;">
+      <div class="csm-bg-label">Content</div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+        <button id="csm-content-arabic" class="csm-audio-chip" onclick="csmSetContentMode('arabic')">🕌 Arabic Only</button>
+        <button id="csm-content-trans" class="csm-audio-chip" onclick="csmSetContentMode('trans')">📖 Arabic + Translation</button>
+        <button id="csm-content-full" class="csm-audio-chip active" onclick="csmSetContentMode('full')">✨ Full (with Tafsir)</button>
+      </div>
+    </div>
+
     <!-- Audio mode selector -->
     <div class="csm-bg-section" style="border-top:1px solid rgba(255,255,255,.06);padding-top:12px;">
       <div class="csm-bg-label">Audio</div>
@@ -4605,7 +4625,7 @@ function dismissWelcome() { wlcEnter(); }
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────
-const GROQ_KEY   = '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';
+const GROQ_KEY   = 'PROXY'; // key is safe in Netlify env
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 const PAGE_SIZE  = 15;
 
@@ -6023,9 +6043,10 @@ function openShare(e, key, num, snum) {
   if (explanation && explanation !== translation) {
     document.getElementById('csmTafsirText').textContent = explanation;
     // Auto-shrink font so full text fits without cutoff
-    setTimeout(_csmFitTafsir, 60);
+    setTimeout(function(){ _csmFitTafsir(); _csmApplyContentMode(); }, 60);
   } else {
     document.getElementById('csmTafsirText').textContent = '';
+    setTimeout(_csmApplyContentMode, 60);
   }
   document.getElementById('csmRef').textContent = s.name.toUpperCase() + ' \xB7 AYAH ' + num;
   document.getElementById('csmSurahLabel').textContent =
@@ -6051,6 +6072,13 @@ function openShare(e, key, num, snum) {
   csmShareAudioPlaying = false;
   _csmUpdatePlayBtn();
   _csmUpdateAudioModeUI();
+
+  // Reset content mode to full each open
+  csmContentMode = 'full';
+  ['arabic','trans','full'].forEach(function(m) {
+    var el = document.getElementById('csm-content-' + m);
+    if (el) el.classList.toggle('active', m === 'full');
+  });
 
   document.getElementById('cinematicShareModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -6286,6 +6314,42 @@ function _csmFitTafsir() {
   while (el.scrollHeight > el.clientHeight + 2 && maxSize > minSize) {
     maxSize -= 0.5;
     el.style.fontSize = maxSize + 'px';
+  }
+}
+
+// Content mode: 'arabic' | 'trans' | 'full'
+var csmContentMode = 'full';
+
+function csmSetContentMode(mode) {
+  csmContentMode = mode;
+  ['arabic','trans','full'].forEach(function(m) {
+    var el = document.getElementById('csm-content-' + m);
+    if (el) el.classList.toggle('active', m === mode);
+  });
+  _csmApplyContentMode();
+}
+
+function _csmApplyContentMode() {
+  var transEl   = document.getElementById('csmTransText');
+  var divEl     = document.getElementById('csmTransDivider');
+  var tafsirEl  = document.getElementById('csmTafsirText');
+
+  var hasTrans  = transEl  && transEl.textContent.trim().length > 0;
+  var hasTafsir = tafsirEl && tafsirEl.textContent.trim().length > 0;
+
+  if (csmContentMode === 'arabic') {
+    if (transEl)  transEl.style.display  = 'none';
+    if (divEl)    divEl.style.display    = 'none';
+    if (tafsirEl) tafsirEl.style.display = 'none';
+  } else if (csmContentMode === 'trans') {
+    if (transEl)  transEl.style.display  = hasTrans  ? 'flex'  : 'none';
+    if (divEl)    divEl.style.display    = 'none';
+    if (tafsirEl) tafsirEl.style.display = 'none';
+  } else {
+    // full — restore original visibility
+    if (transEl)  transEl.style.display  = hasTrans  ? 'flex'  : 'none';
+    if (tafsirEl) tafsirEl.style.display = hasTafsir ? 'block' : 'none';
+    if (divEl)    divEl.style.display    = (hasTrans && hasTafsir) ? 'block' : 'none';
   }
 }
 
@@ -7068,8 +7132,8 @@ async function _csmDrawOverlay(ctx, W, H) {
   const arabic      = document.getElementById('csmArabic').textContent;
   const transEl     = document.getElementById('csmTransText');
   const tafsirEl    = document.getElementById('csmTafsirText');
-  const translation = transEl  ? transEl.textContent  : '';
-  const tafsir      = tafsirEl ? tafsirEl.textContent : '';
+  const translation = (transEl  && csmContentMode !== 'arabic') ? transEl.textContent  : '';
+  const tafsir      = (tafsirEl && csmContentMode === 'full')   ? tafsirEl.textContent : '';
   const ref         = document.getElementById('csmRef').textContent;
   const surahLbl    = document.getElementById('csmSurahLabel').textContent;
   const themeColor  = _csmGetThemeColor();
@@ -7285,11 +7349,11 @@ function _roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-// ─── GROQ API (module-level so all functions can call it) ──
+// ─── GROQ API — calls Netlify proxy (key is safe server-side) ──
 async function callGroq(systemPrompt, userMsg, maxTokens) {
-  const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const r = await fetch('/.netlify/functions/groq', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY},
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       model: GROQ_MODEL,
       max_tokens: maxTokens || 400,
@@ -10343,9 +10407,9 @@ async function toggleDetailedTafsir(key, snum, anum) {
       'End with one sentence on the most important spiritual lesson.\n\n' +
       'Rules: 200 words max. Dignified warm tone — no slang. Say "scholars" not "classical scholars". Use **bold** for key Arabic terms. No bullet points. No intro filler.';
 
-    var aiResp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    var aiResp = await fetch('/.netlify/functions/groq', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: GROQ_MODEL,
         max_tokens: 380,
@@ -10657,9 +10721,9 @@ async function sendChatWithText(text) {
       chatHistory.filter(function(m){ return m.role === 'user' || m.role === 'assistant'; }).slice(-8)
     );
 
-    var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    var r = await fetch('/.netlify/functions/groq', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: GROQ_MODEL, max_tokens: 500, messages: messages })
     });
 
@@ -11389,9 +11453,9 @@ async function sendBayyaanMessage() {
       ].join('\n');
     })();
     var messages = [{ role: 'system', content: systemPrompt }].concat(bayyaanHistory.filter(function(m){ return m.role === 'user' || m.role === 'assistant'; }).slice(-10));
-    var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    var r = await fetch('/.netlify/functions/groq', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: GROQ_MODEL, max_tokens: 320, messages: messages })
     });
     if (!r.ok) throw new Error('HTTP ' + r.status);

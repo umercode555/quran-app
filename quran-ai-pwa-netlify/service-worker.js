@@ -5,7 +5,7 @@
    Compatible with PWABuilder + Google Play TWA
    ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const APP_SHELL_CACHE = `quran-ai-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE  = `quran-ai-runtime-${CACHE_VERSION}`;
 const API_CACHE      = `quran-ai-api-${CACHE_VERSION}`;
@@ -101,12 +101,20 @@ self.addEventListener('fetch', (event) => {
   // Skip bypass patterns — always go to network
   if (BYPASS_PATTERNS.some(p => request.url.includes(p))) return;
 
-  // Same-origin HTML navigations → serve app shell (SPA)
+  // Same-origin HTML navigations → network-first (always get fresh HTML),
+  // fall back to cached shell only when offline
   if (request.mode === 'navigate' && url.origin === self.location.origin) {
     event.respondWith(
-      caches.match('/index.html')
-        .then(cached => cached || fetch(request))
-        .catch(() => caches.match('/index.html'))
+      fetch(request)
+        .then(response => {
+          // Store fresh copy in cache for offline fallback
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(APP_SHELL_CACHE).then(cache => cache.put('/index.html', clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match('/index.html').then(cached => cached || fetch(request)))
     );
     return;
   }
@@ -196,4 +204,11 @@ self.addEventListener('notificationclick', (event) => {
   );
 });
 
-console.log('[SW] Service Worker loaded — Quran AI PWA v2');
+// ── SKIP WAITING on demand ────────────────────────────────────────
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+console.log('[SW] Service Worker loaded — Quran AI PWA v3');
